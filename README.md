@@ -1,1 +1,3 @@
-# cot-4500-as2
+The purpose of this code is to complete the assignment for COT4500 Assignment 2. The code was initially created using PyCharm. This assignment uses the "numpy" package to determine the  interpolating values of a function using Neville's method, he polynomial approximations using Newton's forward method, using the divided difference method to print out the Hermite polynomial approximation, and using cubic spline interpolation. To run the file, open the code into the IDE and run the python code to produce the desired outputs. Run the code in the command line in the command prompt. Type C:pathway to the file with a .exe at the end. Next, in the same line upload it again with a .py at the end.
+
+Example: C:\Users\hltra\PycharmProjects\pythonProject\venv\Scripts\python.exe "C:\Users\hltra\PycharmProjects\pythonProject\Assignment 2.py"
