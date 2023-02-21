@@ -1,4 +1,5 @@
 import numpy as np
+np.set_printoptions(precision=7, suppress=True, linewidth=100)
 #Number 1
 x = [3.6, 3.8, 3.9]
 y = [1.675, 1.436, 1.318]
@@ -68,13 +69,13 @@ def hermite_interpolation(x, y, dx):
     herm_matrix = np.zeros([n, n], dtype = float)
    
     index = 0
-    for x in range(n, 0, -2):
+    for x in range(0, n, 2):
       herm_matrix[index][0] = xx[x % 3]
       herm_matrix[index+1][0] = xx[x % 3]
       index = index + 2
     
     index = 0
-    for x in range(n, 0, -2):
+    for x in range(0, n, 2):
       herm_matrix[index][1] = dx[x % 3]
       herm_matrix[index + 1][1] = dx[x % 3]
       index = index + 2
@@ -84,7 +85,7 @@ def hermite_interpolation(x, y, dx):
       herm_matrix[index * 2 + 1][2] = ddx[index]
       index += 1
     
-    for x in range(2, n-1 , 2):
+    for x in range(0, n-1 , 2):
       herm_matrix[x][2] = hermite_dd(herm_matrix[x][1], herm_matrix[x-1][1], herm_matrix[x][0], herm_matrix[x-1][0])
     
     for x in range(2, n):
@@ -105,3 +106,44 @@ def hermite_interpolation(x, y, dx):
 hermite_interpolation(xx, dx, ddx)
 
 #Number 5
+x = [2, 5, 8, 10]
+y = [3, 5, 7, 9]
+def cubic_spline(x, y):
+
+ n = len(x)
+ matrixA = np.zeros([n,n], dtype = float)
+ matrixB = np.zeros([1,n], dtype = float)
+ matrixC = np.zeros([n,1], dtype = float)
+ matrixA[0][0] = 1
+ matrixA[3][3] = 1
+
+ c = 1
+ for index in range(0, n-1, 2):
+   matrixA[1][index] = x[c] - x[c-1]
+   c += 1
+  
+ c = 2
+ for index in range(1, n, 2):
+  matrixA[2][index] = x[c] - x[c-1]
+  c += 1
+ for index in range(1, n-1):
+  for j in range(1, n-1):
+    if j == index:
+      matrixA[index][j] = 2 * (matrixA[index][j-1] + matrixA[index][j+1])
+  print(matrixA, end = "\n\n")
+ for index in range(1, n-1):
+   var1 = matrixA[index][index - 1]
+   var2 = matrixA[index][index + 1]
+   var3 = y[index] - y[index - 1]
+   var4  = y[index + 1] - y[index]
+   matrixB[0][index] = ((3/var2) * var4) - ((3/var1) * var3)
+
+ print(matrixB, end = "\n\n")
+ for index in range(0, n):
+  matrixC[index] = matrixB[0][index]
+  vector_temp = np.linalg.solve(matrixA, matrixC)
+  vector = np.zeros([1, n], dtype = float)
+ for index in range(0, n):
+   vector[0][index] = vector_temp[index]
+ print(*vector, end = "\n")  
+cubic_spline(x, y)
