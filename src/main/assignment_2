@@ -70,22 +70,25 @@ def hermite_interpolation(x, y, dx):
    
     index = 0
     for x in range(0, n, 2):
-      herm_matrix[index][0] = xx[x % 3]
-      herm_matrix[index+1][0] = xx[x % 3]
-      index = index + 2
+      herm_matrix[x][0] = xx[index]
+      herm_matrix[x+1][0] = xx[index]
+      index = index + 1
     
     index = 0
     for x in range(0, n, 2):
-      herm_matrix[index][1] = dx[x % 3]
-      herm_matrix[index + 1][1] = dx[x % 3]
-      index = index + 2
+      herm_matrix[x][1] = dx[index]
+      herm_matrix[x + 1][1] = dx[index]
+      index = index + 1
     
     index = 0
+    for x in range(1, n, 2):
+      herm_matrix[x][2] = ddx[index]
+      index = index + 1
     while index < num_of_points:
       herm_matrix[index * 2 + 1][2] = ddx[index]
       index += 1
     
-    for x in range(0, n-1 , 2):
+    for x in range(0, n-1, 2):
       herm_matrix[x][2] = hermite_dd(herm_matrix[x][1], herm_matrix[x-1][1], herm_matrix[x][0], herm_matrix[x-1][0])
     
     for x in range(2, n):
